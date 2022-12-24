@@ -1,6 +1,7 @@
 import os
 import base64
 import random
+import zlib
 
 from colorama import Fore, Back
 
@@ -88,24 +89,50 @@ if ________________________________________________________________==___________
     return code
 
 def main():
+    import sys
     print(logo)
+
+    if sys.argv.__len__() < 2:
+        print(f"{Fore.RED}[-]{Fore.RESET} No args received!")
+        exit()
+
     try:
-        file_content = """print("Hello, World!")"""
+        fiii = sys.argv[1]
+        
+        ex = os.path.exists(fiii)
+
+        if ex == False:
+            print(f"{Fore.RED}[-]{Fore.RESET} File not found!")
+            exit()
+
+        file_content = ""
+
+        with open(fiii, 'r') as f:
+            file_content = f.read()
+            f.close()
 
         obfuscated_content = obfuscate(file_content)
+        compressed = zlib.compress(obfuscated_content.encode())
+
+        print(f" {Fore.BLUE}[*] Compressing Payload{Fore.RESET}")
+
+        compresed_payload = (f"import os as ______________;import sys as _______________; import zlib as _____; __________ = (_____.decompress({compressed}))\nwith open('_______.__', 'wb+') as __:\n __.write(__________);__.close()\n______________.system(_______________.executable + ' _______.__'); ______________.remove('_______.__')")
+
 
         print(f" {Fore.GREEN}[+] Obfuscation done!{Fore.RESET}")
 
-        filename = "_obf.py"
+        filename = f"{fiii}_obf.py"
+
+
         with open(filename, "w+") as f:
-            f.write(obfuscated_content)
+            f.write(compresed_payload)
             f.close()
 
 
         print(f" {Fore.GREEN}[+] Wrote to {filename}")
         print()
 
-        # print(obfuscated_content)
+        # print(compresed_payload)
     except Exception as ex:
         print(ex)
 
