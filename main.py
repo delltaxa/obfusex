@@ -82,7 +82,7 @@ if ________________________________________________________________==___________
     
     print(f" {Fore.BLUE}[*]{Fore.RESET} Planting Decoy\n")
 
-    code = viriung + "\n" + code
+    code = "# -*- coding:utf-8 -*-\n" + viriung + "\n" + code
     
     print(f" {Fore.GREEN}[+] Stage 1 done!{Fore.RESET}\n")
     
